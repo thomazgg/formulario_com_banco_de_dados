@@ -1,51 +1,62 @@
 <?php 
-	require("conecta.php");
+	require("../conecta.php");
+	$nomecli="";
+	$emailcli="";
+	$idadecli="";
 	$cpfcli="";
-	$nomecli=""; 
+	$celcli="";
 
 	if(isset($_GET["alterar"])){
 		$idcli = htmlentities($_GET["alterar"]);
 		$query=$mysqli->query("select * from tb_clientes where idcli = '$idcli'");
 		$tabela=$query->fetch_assoc();
-		$cpfcli=$tabela["cpfcli"];		
 		$nomecli=$tabela["nomecli"];
+		$emailcli=$tabela["emailcli"];
+		$idadecli=$tabela["idadecli"];
+		$cpfcli=$tabela["cpfcli"];
+		$celcli=$tabela["celcli"];
 	}
-?>
-
-
-<?php
+	
 	include '../assets/header.php'
 ?>
-	<!-- Styles -->
-	<link rel="stylesheet" href="../assets/style.css">
-</head>
 
 <body>
 	<form method="POST" action="alterar.php">
-		<input type="hidden" name="idcli" value="<?php echo $idcli ?>">
-		cpf: <input type="text" name="cpfcli" value="<?php echo $cpfcli ?>">
-		<br/><br/>			
-		nome: <input type="text" name="nomecli" value="<?php echo $nomecli ?>">
+			<input type="hidden"	name="idcli" 	value="<?php echo $idcli ?>">	
+		nome: 	<input type="text" 	name="nomecli" 	value="<?php echo $nomecli ?>">
+		email: 	<input type="text" 	name="emailcli" value="<?php echo $emailcli ?>">
+		idade: 	<input type="text" 	name="idadecli" value="<?php echo $idadecli ?>">
+		cpf: 	<input type="text" 	name="cpfcli" 	value="<?php echo $cpfcli ?>">	
+		cel: 	<input type="text" 	name="celcli" 	value="<?php echo $celcli ?>">	
 		<input type="submit" value="Salvar" name="botao">
+		<a href ="../index.php">
+			<input type="button" value="Voltar" name="botao">
+		</a>
+
+	<?php 
+		if(isset($_POST["botao"])){
+
+			$idcli   	= 	htmlentities($_POST["idcli"]);
+			$nomecli	=	htmlentities($_POST["nomecli"]);
+			$emailcli	=	htmlentities($_POST["emailcli"]);	
+			$idadecli	=	htmlentities($_POST["idadecli"]);	
+			$cpfcli		=	htmlentities($_POST["cpfcli"]);	
+			$celcli		=	htmlentities($_POST["celcli"]);
+
+			$mysqli->query("update tb_clientes set 
+			nomecli	='$nomecli', 
+			emailcli='$emailcli', 
+			idadecli = '$idadecli', 
+			cpfcli = '$cpfcli', 
+			celcli = '$celcli' 
+			where idcli = '$idcli'");
+			echo $mysqli->error;
+			if ($mysqli->error == "") {
+				echo "<div class='alerta sucesso'><b>Alterado</b> com sucesso.";
+			}
+		}
+	?>
 
 	</form>
-	<a href ="index.php"> Voltar </a>
-	<br />
 </body>
 </html>
-
-
-<?php 
-	if(isset($_POST["botao"])){
-
-		$idcli   = htmlentities($_POST["idcli"]);
-		$cpfcli  = htmlentities($_POST["cpfcli"]);
-		$nomecli = htmlentities($_POST["nomecli"]);
-
-		$mysqli->query("update tb_clientes set cpfcli = '$cpfcli', nomecli='$nomecli' where idcli = '$idcli'  ");
-		echo $mysqli->error;
-		if ($mysqli->error == "") {
-			echo "Alterado com sucesso";
-		}
-	}
-?>
