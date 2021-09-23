@@ -1,5 +1,7 @@
 <?php 
     
+	session_start();
+	
 	// Variaveis de erro
 	$erro_nome      = "";
 	$erro_email     = "";
@@ -11,6 +13,12 @@
 
 	if(isset($_POST["botao"])){
 		// Recebendo variaveis
+		
+		$_SESSION["nome"]   =   $_POST["nomecli"];
+		$_SESSION["email"]  =   $_POST["emailcli"];
+		$_SESSION["idade"]  =   $_POST["idadecli"];
+        $_SESSION["cpf"]    =   $_POST["cpfcli"];
+        $_SESSION["cel"]    =   $_POST["celcli"];
 
 		$nomecli	=	htmlentities($_POST["nomecli"]);
 		$emailcli	=	htmlentities($_POST["emailcli"]);	
@@ -52,15 +60,9 @@
 	include '../assets/header.php'
 ?>
 
-	<!-- Styles -->
-	<link rel="stylesheet" href="../assets/style.css">
-</head>
-
 <body>
 
 	<main class="container">
-
-	<!-- Tela 1 – Dados Cadastrais-->
 
 	<h2>Dados Cadastrais</h2>
 	<form method="POST" action="adicionar.php">
@@ -110,7 +112,10 @@
 			placeholder="Celular<?php echo $erro_cel?>">
 			<div class="underline"></div>
 		</div>
-		<input type="submit" value="Salvar" name="botao">
+		<input type="submit" value="✔️ Salvar" name="botao">
+		<a href="../index.php">
+            <input type="button" value="⬅️ Voltar">
+        </a>
 	</form>
 	</main>
 
@@ -120,7 +125,7 @@
 <?php
 
 	if(isset($_POST["botao"])){
-		require("conecta.php");
+		require("../conecta.php");
 
 		// SEM ERRO DE VALIDAÇÃO => VAI PARA PROXIMA ETAPA
 		if ($erro_validacao == 0) {
@@ -129,8 +134,8 @@
 			echo $mysqli->error;
 
 			if($mysqli->error == ""){
-				echo "<br/> Inserido com sucesso <br/></br/>";
-				echo "<a href='index.php'>Voltar</a>";
+				// Header("location: ../index.php");
+				Header("location: mostra_dados.php");
 			}
 		}
 
