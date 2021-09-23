@@ -1,7 +1,7 @@
 <?php 
 
     // conexao com o banco de dados
-    require("conecta.php");
+    require("../conecta.php");
 
     $idcli   = htmlentities($_GET["id"]);
 
@@ -19,7 +19,7 @@
     <title>Dados do Formulário</title>
     
     <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="../assets/style4.css">
+    <link rel="stylesheet" type="text/css" href="../assets/style_all.css">
 </head>
 
 <body>
@@ -44,12 +44,21 @@
                         echo "Idade:    $tabela[idadecli] </br>";
                         echo "CPF:      $tabela[cpfcli] </br>";
                         echo "Celular:  $tabela[celcli] </br>";
+                        echo "
+                        <a href='excluir.php?excluir=$tabela[idcli]'>
+                            <input type='button' value='❌ Excluir'>
+                        </a>
+                        <a href='alterar.php?alterar=$tabela[idcli]'>
+                            <input type='button' value='📝 Alterar'>
+                        </a>";
                     }
                     ?>
-                    <div class="underline"></div>
+                    <a href="../index.php">
+                        <input type="button" value="⬅️ Voltar">
+                    </a>
                 </div>
-            </div><br>
-            
+            </div>
+        </div>
     </main>
 </body>
 </html>
